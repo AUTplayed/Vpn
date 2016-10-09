@@ -10,6 +10,7 @@ namespace Vpn
         [STAThread]
         private static void Main(string[] args)
         {
+            //Ugly af splitting
             string html = new WebClient().DownloadString("https://www.vpnme.me/freevpn.html");
             string split = html.Split(new[] { "features-table2" }, StringSplitOptions.None)[1];
             split = split.Split(new[] { "<tbody>" }, StringSplitOptions.None)[1];
