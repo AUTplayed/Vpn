@@ -19,8 +19,12 @@ namespace Vpn
             Console.WriteLine(pw);
             System.Windows.Forms.Clipboard.SetText(pw);
 
+            //console tries
+            string cmd = "openvpn.exe --config \"C:\\Program Files\\OpenVPN\\config\\vpnme_fr_tcp443.ovpn\" --auth-user-pass C:\\Users\\Philipp\\Desktop\\pw.txt";
+            Process.Start("CMD.exe", cmd);
+
             //Autoinput tries
-            string automationId = "181";
+            /*string automationId = "181";
             string newTextBoxValue = "testing";
             var condition = new PropertyCondition(AutomationElement.AutomationIdProperty, automationId);
             var textBox = AutomationElement.RootElement.FindFirst(TreeScope.Subtree, condition);
