@@ -7,15 +7,6 @@ namespace Vpn
 {
     internal class Program
     {
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        public static extern bool SetForegroundWindow(IntPtr hWnd);
-
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        public static extern void SwitchToThisWindow(IntPtr hWnd, bool fAltTab);
-
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
         [STAThread]
         private static void Main(string[] args)
         {
@@ -27,13 +18,7 @@ namespace Vpn
             Console.WriteLine(pw);
             System.Windows.Forms.Clipboard.SetText(pw);
 
-            /* var processes = Process.GetProcessesByName("openvpn");
-             foreach (var p in processes)
-             {
-                 SetForegroundWindow(p.MainWindowHandle);
-                 SwitchToThisWindow(p.MainWindowHandle,true);
-                 ShowWindow(p.MainWindowHandle, 1);
-             }*/
+            //Autoinput tries
             string automationId = "181";
             string newTextBoxValue = "testing";
             var condition = new PropertyCondition(AutomationElement.AutomationIdProperty, automationId);
