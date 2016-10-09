@@ -24,7 +24,6 @@ namespace Vpn
             var condition = new PropertyCondition(AutomationElement.AutomationIdProperty, automationId);
             var textBox = AutomationElement.RootElement.FindFirst(TreeScope.Subtree, condition);
             object test = null;
-            //var pattern = textBox.GetSupportedPatterns();
             var pat = textBox.GetSupportedPatterns();
             Console.WriteLine(pat.Length);
             foreach (var p in pat)
