@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Windows.Automation;
 
@@ -10,7 +12,7 @@ namespace Vpn
         [STAThread]
         private static void Main(string[] args)
         {
-            //Ugly af splitting
+            //Getting the Password
             string html = new WebClient().DownloadString("https://www.vpnme.me/freevpn.html");
             string split = html.Split(new[] { "features-table2" }, StringSplitOptions.None)[1];
             split = split.Split(new[] { "<tbody>" }, StringSplitOptions.None)[1];
@@ -19,26 +21,18 @@ namespace Vpn
             Console.WriteLine(pw);
             System.Windows.Forms.Clipboard.SetText(pw);
 
-            //console tries
-            string cmd = "openvpn.exe --config \"C:\\Program Files\\OpenVPN\\config\\vpnme_fr_tcp443.ovpn\" --auth-user-pass C:\\Users\\Philipp\\Desktop\\pw.txt";
-            Process.Start("CMD.exe", cmd);
+            //Opening VPN tunnel
+            String pwPath = @"C:\vpn_pw.txt";
+            String configPath = "\"" + @"C:\Program Files\OpenVPN\config\vpnme_fr_tcp443.ovpn" + "\"";
 
-            //Autoinput tries
-            /*string automationId = "181";
-            string newTextBoxValue = "testing";
-            var condition = new PropertyCondition(AutomationElement.AutomationIdProperty, automationId);
-            var textBox = AutomationElement.RootElement.FindFirst(TreeScope.Subtree, condition);
-            object test = null;
-            var pat = textBox.GetSupportedPatterns();
-            Console.WriteLine(pat.Length);
-            foreach (var p in pat)
-            {
-                Console.WriteLine(p.ProgrammaticName);
-            }
-            Console.WriteLine(textBox.TryGetCurrentPattern(ValuePattern.Pattern, out test));
-            Console.WriteLine(test);
-            /*ValuePattern vPattern = (ValuePattern)textBox.GetCurrentPattern(ValuePattern.Pattern);
-            vPattern.SetValue(newTextBoxValue);*/
+            if (File.Exists(pwPath))
+                File.Delete(pwPath);
+            File.Create(pwPath);
+            File.WriteAllLines(pwPath, new List<string> { "fr-open", pw });
+            string cmd = "openvpn.exe --config " + configPath + " --auth-user-pass " + pwPath;
+            Process.Start("CMD.exe", cmd);
+            File.Delete(pwPath);
+
             Console.ReadKey();
         }
     }
